@@ -5,11 +5,28 @@ import SearchPanel from "./SearchPanel";
 import useApiStore from "../store.js";
 
 export default function EmojiPanel() {
-  const [emojiData, setEmojiData] = useState([]);
+  const [variantCode, setVariantCode] = useState([
+    "FE0F",
+    "1F3FB",
+    "1F3FC",
+    "1F3FD",
+    "1F3FE",
+    "1F3FF",
+  ]);
   const [filteredEmojis, setFilteredEmojis] = useState([]);
+  // const filteredEmojis = useApiStore((state) =>  state.filteredData);
   const loading = useApiStore((state) => state.loading);
   const error = useApiStore((state) => state.error);
   const { apiData, fetchApiData } = useApiStore();
+
+  //   variant: {
+  //     normal: "FE0F",
+  //     lightSkinTone: "1F3FB",
+  //     mediumLightSkinTone: "1F3FC",
+  //     mediumSkinTone: "1F3FD",
+  //     mediumDarkSkinTone: "1F3FE",
+  //     darkSkinTone: "1F3FF",
+  //   }
 
   useEffect(() => {
     // fetchData();
@@ -27,20 +44,36 @@ export default function EmojiPanel() {
 
   function searchEmojis(searchText) {
     if (searchText === "") {
-      setFilteredEmojis(emojiData);
+        setFilteredEmojis(apiData);
     } else {
-      const newData = emojiData.filter((item) => {
+      const newData = apiData.filter((item) => {
         return (
+          //   (
           item.unicodeName.toLowerCase().includes(searchText.toLowerCase()) ||
           item.character.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.group.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.codePoint.includes(searchText.toUpperCase())
+          item.group.toLowerCase().includes(searchText.toLowerCase())
+          // )&&(
+          //   !item.codePoint.includes(variantCode[1].toUpperCase()) ||
+          //   !item.codePoint.includes(variantCode[2].toUpperCase()) ||
+          //   !item.codePoint.includes(variantCode[3].toUpperCase()) ||
+          //   !item.codePoint.includes(variantCode[4].toUpperCase()) ||
+          //   !item.codePoint.includes(variantCode[5].toUpperCase()) )
         );
       });
 
       setFilteredEmojis(newData);
     }
   }
+
+  //   function selectVariants(variantCode) {
+  //     const newData = apiData.filter((item) => {
+  //       return (!item.codePoint.includes(variantCode.toUpperCase()) ||
+
+  //       );
+  //     });
+
+  //     setFilteredEmojis(newData);
+  //   }
 
   return (
     <>
@@ -59,8 +92,8 @@ export default function EmojiPanel() {
         ) : (
           <>
             <div className="emoji-items">
-              {console.log(emojiData)}
-              {apiData.map((item) => (
+              {}
+              {filteredEmojis.map((item) => (
                 <div
                   className="items"
                   onClick={() => copySelectedEmoji(item.character)}

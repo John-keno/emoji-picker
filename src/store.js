@@ -1,16 +1,10 @@
 // src/store.js
 import { create } from "zustand";
 
-const useApiStore = create((set) => ({
+const useApiStore = create((set,get) => ({
   apiData: null, // store the data returned by the API call in this array
-  variant: {
-    normal: "FE0F",
-    lightSkinTone: "1F3FB",
-    mediumLightSkinTone: "1F3FC",
-    mediumSkinTone:'1F3FD',
-    mediumDarkSkinTone: '1F3FE',
-    darkSkinTone:'1F3FF'
-  }, // store the selected variant code{normal=FE0F,light skin tone = 1F3FB, med light skin tone = 1F3FC, med skin tone=1F3FD, med dark tone= 1F3FE, dark tone= 1F3FF}
+   // filter the apiData based on user input
+  // store the selected variant code{normal=FE0F,light skin tone = 1F3FB, med light skin tone = 1F3FC, med skin tone=1F3FD, med dark tone= 1F3FE, dark tone= 1F3FF}
   loading: true,
   error: null,
   fetchApiData: async () => {
@@ -26,11 +20,7 @@ const useApiStore = create((set) => ({
       set({ error: err });
     }
   },
-  getfilteredEmojis: (state) => {
-    const data = state.apiData.filter((item) => {
-      return !item.codePoint.includes(state.variant.toUpperCase(), 5);
-    });
-  },
+  
 }));
 
 export default useApiStore;
